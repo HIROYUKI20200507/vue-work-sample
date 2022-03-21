@@ -1,9 +1,14 @@
 <template>
-  <div></div>
+  <FrontPage />
 </template>
-
 <script>
-export default {};
+import FrontPage from "./components/pages/FrontPage.vue";
+
+export default {
+  components: {
+    FrontPage,
+  },
+};
 </script>
 
 <style></style>
