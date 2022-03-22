@@ -1,8 +1,15 @@
 <template>
-  <div class="image-wrapper" @mouseover="hoverAction">
+  <div
+    class="image-wrapper"
+    @mouseover="hoverAction = true"
+    @mouseleave="hoverAction = false"
+  >
     <div class="img-main">
       <img :src="installItemImage.src" :alt="installItemImage.name" />
-      <span v-if="hoverAction" class="dot-effect"></span>
+      <div v-if="hoverAction" class="dot-effect">
+        <a @click="pushPrev" class="arrow-prev"></a>
+        <a @click="pushNext" class="arrow-next"></a>
+      </div>
       <input
         type="hidden"
         :name="installItemImage.name"
@@ -18,15 +25,23 @@ import { ref, reactive } from "vue";
 
 export default {
   props: { getId: Number, getImage: String, getName: String },
-  setup(props) {
-    const hoverAction = ref(true);
+  setup(props, { emit }) {
+    const hoverAction = ref(false);
     const installItemImage = reactive({
       id: props.getId,
       src: props.getImage,
       name: props.getName,
     });
 
-    return { hoverAction, installItemImage };
+    const pushPrev = () => {
+      emit("pushPrev", installItemImage);
+    };
+
+    const pushNext = () => {
+      emit("pushNext", installItemImage);
+    };
+
+    return { hoverAction, installItemImage, pushPrev, pushNext };
   },
 };
 </script>
@@ -35,17 +50,45 @@ export default {
 .image-wrapper {
   .img-main {
     position: relative;
+
     .dot-effect {
       position: absolute;
       top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 100%;
-      height: 100%;
       max-width: 350px;
-      max-height: 200px;
+      height: -webkit-fill-available;
       background-color: black;
       opacity: 0.4;
+      transition: 0.5s;
+
+      %arrow {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        border-top: 3px solid #ffffff;
+        border-right: 3px solid #ffffff;
+        transform: rotate(45deg);
+        cursor: pointer;
+        opacity: 1;
+        transition: 0.5s;
+      }
+
+      .arrow-prev {
+        @extend %arrow;
+        left: 85%;
+      }
+
+      .arrow-next {
+        @extend %arrow;
+        transform: rotate(225deg);
+        left: 8%;
+      }
     }
   }
   .item-title {
@@ -54,9 +97,7 @@ export default {
 
   img {
     width: 100%;
-    height: 100%;
     max-width: 350px;
-    max-height: 200px;
     object-fit: cover;
   }
 }

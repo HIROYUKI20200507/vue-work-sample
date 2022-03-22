@@ -8,6 +8,8 @@
         :getId="item.id"
         :getImage="item.Url"
         :getName="item.name"
+        @pushPrev="pushPrev"
+        @pushNext="pushNext"
       />
     </template>
   </div>
@@ -37,14 +39,25 @@ export default {
         const element = e[key];
 
         getReactiveImageData.push({
-          id: key + 1,
+          id: Number(key) + 1,
           name: element.name,
           Url: URL.createObjectURL(element),
+          // TODO:keyで年月日+時間
         });
       }
     };
 
-    return { getImageData, getReactiveImageData };
+    const pushPrev = (e) => {
+      const index = getReactiveImageData.findIndex(({ id }) => id === e.id);
+      console.log(index);
+    };
+
+    const pushNext = (e) => {
+      const index = getReactiveImageData.findIndex(({ id }) => id === e.id);
+      console.log(index);
+    };
+
+    return { getImageData, pushPrev, pushNext, getReactiveImageData };
   },
 };
 </script>
@@ -75,7 +88,8 @@ export default {
 
 .main-display {
   display: grid;
-  grid-gap: 10px;
+  align-items: flex-start;
+  grid-gap: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
