@@ -1,10 +1,13 @@
 <template>
-  <img :src="installItemImage.src" :alt="installItemImage.name" />
-  <input
-    type="hidden"
-    :name="installItemImage.name"
-    :value="installItemImage.id"
-  />
+  <div class="image-wrapper">
+    <img :src="installItemImage.src" :alt="installItemImage.name" />
+    <input
+      type="hidden"
+      :name="installItemImage.name"
+      :value="installItemImage.id"
+    />
+    <div class="item-title">{{ installItemImage.name }}</div>
+  </div>
 </template>
 
 <script>
@@ -24,4 +27,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.image-wrapper {
+  .item-title {
+    font-size: 0.8rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-width: 350px;
+    max-height: 200px;
+    object-fit: cover;
+  }
+}
+</style>
