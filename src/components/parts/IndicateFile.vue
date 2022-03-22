@@ -1,18 +1,22 @@
 <template>
-  <div>
-    <img src="" alt="" />
-  </div>
+  <img :src="installItemImage.src" :alt="installItemImage.name" />
+  <input
+    type="hidden"
+    :name="installItemImage.name"
+    :value="installItemImage.id"
+  />
 </template>
 
 <script>
 import { reactive } from "vue";
 
 export default {
-  setup() {
+  props: { getId: Number, getImage: String, getName: String },
+  setup(props) {
     const installItemImage = reactive({
-      id: "",
-      src: "",
-      name: "",
+      id: props.getId,
+      src: props.getImage,
+      name: props.getName,
     });
 
     return { installItemImage };
