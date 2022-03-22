@@ -35,6 +35,8 @@ export default {
       }
 
       emitImageData();
+
+      testImage.value = [];
     };
 
     return {

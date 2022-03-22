@@ -5,7 +5,7 @@
   <div class="main-display">
     <template v-for="item in getReactiveImageData" :key="item.key">
       <IndicateFile
-        :getId="item.key"
+        :getId="item.id"
         :getImage="item.Url"
         :getName="item.name"
       />
@@ -37,7 +37,7 @@ export default {
         const element = e[key];
 
         getReactiveImageData.push({
-          id: key,
+          id: key + 1,
           name: element.name,
           Url: URL.createObjectURL(element),
         });
