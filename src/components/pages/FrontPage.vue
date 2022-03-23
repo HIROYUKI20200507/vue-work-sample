@@ -2,15 +2,21 @@
   <div class="header">
     <div class="head-title">商品追加画面</div>
   </div>
-  <div class="main-display">
-    <template v-for="item in getReactiveImageData" :key="item.key">
-      <IndicateFile
-        :getId="item.key"
-        :getImage="item.Url"
-        :getName="item.name"
-      />
+  <Draggable
+    :list="getReactiveImageData"
+    item-key="id"
+    @start="dragging = true"
+    @end="dragging = false"
+    class="main-display"
+  >
+    <template #item="{ element }">
+      <div class="img-main">
+        <img :src="element.url" :alt="element.name" />
+        <input type="hidden" :name="element.name" :value="element.id" />
+        <div class="item-title">{{ element.name }}</div>
+      </div>
     </template>
-  </div>
+  </Draggable>
   <div class="footer">
     <SelectFileButton @dispatchImage="getImageData" />
     <SubmitButton />
@@ -18,33 +24,35 @@
 </template>
 
 <script>
-import IndicateFile from "../parts/IndicateFile.vue";
 import SelectFileButton from "../parts/SelectFileButton.vue";
 import SubmitButton from "../parts/SubmitButton.vue";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+import Draggable from "vuedraggable";
 
 export default {
   components: {
-    IndicateFile,
     SelectFileButton,
     SubmitButton,
+    Draggable,
   },
   setup() {
-    let getReactiveImageData = reactive([]);
+    const dragging = ref(false);
+    const getReactiveImageData = reactive([]);
 
     const getImageData = (e) => {
       for (const key in e) {
         const element = e[key];
 
         getReactiveImageData.push({
-          id: key,
+          id: Number(key) + 1,
           name: element.name,
-          Url: URL.createObjectURL(element),
+          url: URL.createObjectURL(element),
+          // TODO:keyで年月日+時間
         });
       }
     };
 
-    return { getImageData, getReactiveImageData };
+    return { getImageData, getReactiveImageData, dragging };
   },
 };
 </script>
@@ -75,8 +83,21 @@ export default {
 
 .main-display {
   display: grid;
-  grid-gap: 10px;
+  align-items: flex-start;
+  grid-gap: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  .img-main {
+    position: relative;
+  }
+  .item-title {
+    font-size: 0.8rem;
+  }
+
+  img {
+    width: 100%;
+    max-width: 350px;
+    object-fit: cover;
+  }
 }
 
 .footer {
