@@ -11,9 +11,17 @@
   >
     <template #item="{ element }">
       <div class="img-main">
-        <img :src="element.url" :alt="element.name" />
+        <img class="image-view" :src="element.url" :alt="element.name" />
         <input type="hidden" :name="element.name" :value="element.id" />
-        <div class="item-title">{{ element.name }}</div>
+        <div class="item-title">
+          <div class="title">{{ element.name }}</div>
+          <a class="remove-link" @click="removeItem(element)">
+            <img
+              src="../../../src/assets/images/dustBox.svg"
+              alt="removeIcon"
+            />
+          </a>
+        </div>
       </div>
     </template>
   </Draggable>
@@ -52,7 +60,17 @@ export default {
       }
     };
 
-    return { getImageData, getReactiveImageData, dragging };
+    const removeItem = (removeValue) => {
+      if (confirm("削除してよろしいですか？")) {
+        const getIndex = getReactiveImageData.findIndex(
+          (data) => data.id === removeValue.id
+        );
+
+        getReactiveImageData.splice(getIndex, 1);
+      }
+    };
+
+    return { getImageData, getReactiveImageData, dragging, removeItem };
   },
 };
 </script>
@@ -90,10 +108,23 @@ export default {
     position: relative;
   }
   .item-title {
-    font-size: 0.8rem;
-  }
+    display: flex;
+    .title {
+      font-size: 0.8rem;
+    }
 
-  img {
+    .remove-link {
+      cursor: pointer;
+
+      & > img {
+        display: block;
+        margin: 10px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  .image-view {
     width: 100%;
     max-width: 350px;
     object-fit: cover;
