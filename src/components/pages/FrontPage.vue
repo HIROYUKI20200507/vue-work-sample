@@ -13,7 +13,6 @@
       <template #item="{ element }">
         <div class="img-main">
           <img class="image-view" :src="element.url" :alt="element.name" />
-          <input type="hidden" :name="element.name" :value="index" />
           <div class="item-title">
             <div class="title">{{ element.name }}</div>
             <a class="remove-link" @click="removeItem(element)">
