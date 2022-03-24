@@ -75,6 +75,7 @@ export default {
     };
 
     watch(getReactiveImageData, () => {
+      // TODO:watchが発動するたびにidを再度振り分けるfindIndexmethod利用
       if (getReactiveImageData.length > 0) {
         buttonDisable.value = false;
       } else {
