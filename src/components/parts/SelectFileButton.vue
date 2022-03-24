@@ -1,14 +1,7 @@
 <template>
   <div class="file">
     画像を選択
-    <input
-      type="file"
-      name=""
-      id=""
-      multiple
-      accept="image/*"
-      @change="onImageUploaded"
-    />
+    <input type="file" multiple accept="image/*" @change="onImageUploaded" />
   </div>
 </template>
 

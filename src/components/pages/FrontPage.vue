@@ -2,40 +2,45 @@
   <div class="header">
     <div class="head-title">商品追加画面</div>
   </div>
-  <Draggable
-    :list="getReactiveImageData"
-    item-key="id"
-    @start="dragging = true"
-    @end="dragging = false"
-    class="main-display"
-  >
-    <template #item="{ element }">
-      <div class="img-main">
-        <img class="image-view" :src="element.url" :alt="element.name" />
-        <input type="hidden" :name="element.name" :value="element.id" />
-        <div class="item-title">
-          <div class="title">{{ element.name }}</div>
-          <a class="remove-link" @click="removeItem(element)">
-            <img
-              src="../../../src/assets/images/dustBox.svg"
-              alt="removeIcon"
-            />
-          </a>
+  <form action="post">
+    <Draggable
+      :list="getReactiveImageData"
+      item-key="id"
+      @start="dragging = true"
+      @end="dragging = false"
+      class="main-display"
+    >
+      <template #item="{ element }">
+        <div class="img-main">
+          <img class="image-view" :src="element.url" :alt="element.name" />
+          <input type="hidden" :name="element.name" :value="index" />
+          <div class="item-title">
+            <div class="title">{{ element.name }}</div>
+            <a class="remove-link" @click="removeItem(element)">
+              <img
+                src="../../../src/assets/images/dustBox.svg"
+                alt="removeIcon"
+              />
+            </a>
+          </div>
         </div>
-      </div>
-    </template>
-  </Draggable>
+      </template>
+    </Draggable>
+  </form>
   <div class="footer">
     <SelectFileButton @dispatchImage="getImageData" />
-    <SubmitButton />
+    <SubmitButton
+      :disable="buttonDisable"
+      :getReactiveImageData="getReactiveImageData"
+    />
   </div>
 </template>
 
 <script>
 import SelectFileButton from "../parts/SelectFileButton.vue";
 import SubmitButton from "../parts/SubmitButton.vue";
-import { reactive, ref } from "vue";
 import Draggable from "vuedraggable";
+import { reactive, ref, watch } from "vue";
 
 export default {
   components: {
@@ -45,6 +50,7 @@ export default {
   },
   setup() {
     const dragging = ref(false);
+    const buttonDisable = ref(true);
     const getReactiveImageData = reactive([]);
 
     const getImageData = (e) => {
@@ -55,7 +61,6 @@ export default {
           id: Number(key) + 1,
           name: element.name,
           url: URL.createObjectURL(element),
-          // TODO:keyで年月日+時間
         });
       }
     };
@@ -70,7 +75,21 @@ export default {
       }
     };
 
-    return { getImageData, getReactiveImageData, dragging, removeItem };
+    watch(getReactiveImageData, () => {
+      if (getReactiveImageData.length > 0) {
+        buttonDisable.value = false;
+      } else {
+        buttonDisable.value = true;
+      }
+    });
+
+    return {
+      getImageData,
+      removeItem,
+      getReactiveImageData,
+      dragging,
+      buttonDisable,
+    };
   },
 };
 </script>
