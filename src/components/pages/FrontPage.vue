@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="head-title">商品追加画面</div>
+    <div class="head-title">写真追加画面</div>
   </div>
   <form action="post">
     <Draggable
@@ -55,11 +55,13 @@ export default {
     const getImageData = (e) => {
       for (const key in e) {
         const element = e[key];
+        const today = new Date();
 
         getReactiveImageData.push({
           id: Number(key) + 1,
           name: element.name,
           url: URL.createObjectURL(element),
+          date: `${today.getFullYear()}${today.getMonth()}${today.getDate()}${today.getHours()}${today.getMinutes()}`,
         });
       }
     };
@@ -74,8 +76,11 @@ export default {
       }
     };
 
-    watch(getReactiveImageData, () => {
-      // TODO:watchが発動するたびにidを再度振り分けるfindIndexmethod利用
+    watch(getReactiveImageData, (data) => {
+      data.forEach((_, index) => {
+        getReactiveImageData[index].id = index + 1;
+      });
+
       if (getReactiveImageData.length > 0) {
         buttonDisable.value = false;
       } else {
@@ -123,11 +128,15 @@ export default {
   align-items: flex-start;
   grid-gap: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+
   .img-main {
     position: relative;
   }
   .item-title {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     .title {
       font-size: 0.8rem;
     }
@@ -147,6 +156,11 @@ export default {
     width: 100%;
     max-width: 350px;
     object-fit: cover;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 }
 
