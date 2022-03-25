@@ -1,24 +1,46 @@
 # vue-work-sample
 
-## Project setup
+## version
+
+`node v16.14.0`
+
+`vue v3.2.13`
+
+`vuex v4.0.0`
+
+## 利用ライブラリ
+
+`vuex`
+
+`axios`
+
+`vuedraggable`
+
+モック API（https://httpbin.org/）
+※初期設定は https://httpbin.org/post で設定
+
+## 初回実行コマンド
+
 ```
-npm install
+yarn
 ```
 
-### Compiles and hot-reloads for development
+### localhost 立ち上げ
+
 ```
-npm run serve
+yarn serve
 ```
 
-### Compiles and minifies for production
+http://localhost:8080/
+
+### ビルドコマンド
+
 ```
-npm run build
+yarn build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### 本番環境
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+firebase hosting
+
+https://vue-work-sample.web.app/

@@ -6,6 +6,7 @@
 
 <script>
 import axios from "axios";
+import { useStore } from "vuex";
 
 export default {
   components: {},
@@ -14,11 +15,21 @@ export default {
     getReactiveImageData: Array,
   },
   setup(props) {
+    const store = useStore();
+
     const sendImageData = () => {
       axios
         .post("https://httpbin.org/post", props.getReactiveImageData)
         .then((res) => {
-          console.log(res.data.json);
+          store.commit("setCode", res.status);
+        })
+        .catch((error) => {
+          store.commit("setCode", error.response.status);
+        })
+        .finally(() => {
+          if (store.state.code !== (200 && null)) {
+            alert(`${store.state.code}番エラーが発生しました`);
+          }
         });
     };
     return { sendImageData };
