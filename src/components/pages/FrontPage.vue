@@ -129,6 +129,10 @@ export default {
   grid-gap: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 
+  @media screen and (max-width: 599px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .img-main {
     position: relative;
   }
@@ -155,8 +159,13 @@ export default {
   .image-view {
     width: 100%;
     max-width: 350px;
+    max-height: 200px;
     object-fit: cover;
     cursor: grab;
+
+    @media screen and (max-width: 599px) {
+      max-height: 100px;
+    }
 
     &:active {
       cursor: grabbing;
