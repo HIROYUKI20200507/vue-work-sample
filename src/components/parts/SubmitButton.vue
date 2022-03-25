@@ -19,7 +19,7 @@ export default {
 
     const sendImageData = () => {
       axios
-        .post("https://httpbin.org/status/502", props.getReactiveImageData)
+        .post("https://httpbin.org/post", props.getReactiveImageData)
         .then((res) => {
           store.commit("setCode", res.status);
         })
