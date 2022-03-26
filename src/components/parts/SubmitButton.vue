@@ -27,7 +27,7 @@ export default {
           store.commit("setCode", error.response.status);
         })
         .finally(() => {
-          if (store.state.code !== (200 && null)) {
+          if (store.state.code !== (200 || null)) {
             alert(`${store.state.code}番エラーが発生しました`);
           }
         });
