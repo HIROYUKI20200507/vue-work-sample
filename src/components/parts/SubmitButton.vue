@@ -21,6 +21,7 @@ export default {
       axios
         .post("https://httpbin.org/post", props.getReactiveImageData)
         .then((res) => {
+          console.log(res.data.json);
           store.commit("setCode", res.status);
         })
         .catch((error) => {
