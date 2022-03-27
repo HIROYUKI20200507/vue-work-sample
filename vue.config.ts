@@ -1,10 +1,4 @@
-import { ProjectOptions } from "@vue/cli-service";
-
-/**
- * @type { ProjectOptions }
- */
-const config: ProjectOptions = {
-  lintOnSave: true,
-};
-
-export default config;
+const { defineConfig } = require("@vue/cli-service");
+module.exports = defineConfig({
+  transpileDependencies: true,
+});

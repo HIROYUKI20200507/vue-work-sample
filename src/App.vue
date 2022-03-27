@@ -1,7 +1,7 @@
 <template>
   <FrontPage />
 </template>
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import FrontPage from "./components/pages/FrontPage.vue";
 

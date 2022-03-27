@@ -1,6 +1,6 @@
 <template>
   <button class="submit-button" :disabled="disable" @click="sendImageData">
-    画像を送信する
+    画像を保存する
   </button>
 </template>
 
