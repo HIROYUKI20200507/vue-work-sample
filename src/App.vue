@@ -12,4 +12,10 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap");
+
+#app {
+  font-family: "Noto Sans JP", sans-serif;
+}
+</style>
