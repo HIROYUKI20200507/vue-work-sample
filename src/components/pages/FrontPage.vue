@@ -2,30 +2,28 @@
   <div class="header">
     <div class="head-title">写真追加画面</div>
   </div>
-  <form action="post">
-    <Draggable
-      :list="getReactiveImageData"
-      item-key="id"
-      @start="dragging = true"
-      @end="dragging = false"
-      class="main-display"
-    >
-      <template #item="{ element }">
-        <div class="img-main">
-          <img class="image-view" :src="element.url" :alt="element.name" />
-          <div class="item-title">
-            <div class="title">{{ element.name }}</div>
-            <a class="remove-link" @click="removeItem(element)">
-              <img
-                src="../../../src/assets/images/dustBox.svg"
-                alt="removeIcon"
-              />
-            </a>
-          </div>
+  <Draggable
+    :list="getReactiveImageData"
+    item-key="id"
+    @start="dragging = true"
+    @end="dragging = false"
+    class="main-display"
+  >
+    <template #item="{ element }">
+      <div class="img-main">
+        <img class="image-view" :src="element.url" :alt="element.name" />
+        <div class="item-title">
+          <div class="title">{{ element.name }}</div>
+          <a class="remove-link" @click="removeItem(element)">
+            <img
+              src="../../../src/assets/images/dustBox.svg"
+              alt="removeIcon"
+            />
+          </a>
         </div>
-      </template>
-    </Draggable>
-  </form>
+      </div>
+    </template>
+  </Draggable>
   <div class="footer">
     <SelectFileButton @dispatchImage="getImageData" />
     <SubmitButton
@@ -141,40 +139,65 @@ export default defineComponent({
 
   .img-main {
     position: relative;
-  }
-  .item-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    transition: 0.5s;
 
-    .title {
-      font-size: 0.8rem;
-    }
+    &:hover {
+      opacity: 0.7;
 
-    .remove-link {
-      cursor: pointer;
-
-      & > img {
-        display: block;
-        margin: 10px;
-        width: 20px;
-        height: 20px;
+      &::after {
+        content: "ドラッグアンドドロップで位置変えれます";
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        padding: 10px 0;
+        color: #ffffff;
+        background-color: black;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        opacity: 0.8;
+        z-index: 100;
       }
     }
-  }
-  .image-view {
-    width: 100%;
-    max-width: 350px;
-    max-height: 200px;
-    object-fit: cover;
-    cursor: grab;
 
-    @media screen and (max-width: 599px) {
-      max-height: 100px;
+    .image-view {
+      width: 100%;
+      max-width: 350px;
+      max-height: 200px;
+      object-fit: cover;
+      cursor: grab;
+
+      @media screen and (max-width: 599px) {
+        max-height: 100px;
+      }
+
+      &:active {
+        cursor: grabbing;
+      }
     }
 
-    &:active {
-      cursor: grabbing;
+    .item-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        font-size: 0.8rem;
+      }
+
+      .remove-link {
+        cursor: pointer;
+
+        & > img {
+          display: block;
+          margin: 10px;
+          width: 20px;
+          height: 20px;
+        }
+      }
     }
   }
 }
