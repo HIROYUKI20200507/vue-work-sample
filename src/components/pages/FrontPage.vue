@@ -35,38 +35,44 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import SelectFileButton from "../parts/SelectFileButton.vue";
 import SubmitButton from "../parts/SubmitButton.vue";
 import Draggable from "vuedraggable";
-import { reactive, ref, watch } from "vue";
+import { defineComponent, reactive, ref, watch } from "vue";
 
-export default {
+interface GetImageData {
+  id: number;
+  name: string;
+  url: string;
+  date: string;
+}
+
+export default defineComponent({
   components: {
     SelectFileButton,
     SubmitButton,
     Draggable,
   },
   setup() {
-    const dragging = ref(false);
-    const buttonDisable = ref(true);
-    const getReactiveImageData = reactive([]);
+    const dragging = ref<boolean>(false);
+    const buttonDisable = ref<boolean>(true);
+    const getReactiveImageData = reactive<GetImageData[]>([]);
 
-    const getImageData = (e) => {
-      for (const key in e) {
-        const element = e[key];
+    const getImageData = (imgData: GetImageData[]) => {
+      imgData.forEach((element: any, index: number) => {
         const today = new Date();
 
         getReactiveImageData.push({
-          id: Number(key) + 1,
+          id: index + 1,
           name: element.name,
           url: URL.createObjectURL(element),
           date: `${today.getFullYear()}${today.getMonth()}${today.getDate()}${today.getHours()}${today.getMinutes()}`,
         });
-      }
+      });
     };
 
-    const removeItem = (removeValue) => {
+    const removeItem = (removeValue: GetImageData) => {
       if (confirm("削除してよろしいですか？")) {
         const getIndex = getReactiveImageData.findIndex(
           (data) => data.id === removeValue.id
@@ -96,7 +102,7 @@ export default {
       buttonDisable,
     };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

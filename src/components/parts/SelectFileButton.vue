@@ -5,19 +5,20 @@
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 
-export default {
+export default defineComponent({
   setup(_, { emit }) {
-    const testImage = ref([]);
+    const testImage = ref<any[]>([]);
 
     const emitImageData = () => {
       emit("dispatchImage", testImage.value);
     };
 
-    const onImageUploaded = (e) => {
-      const images = e.target.files;
+    const onImageUploaded = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const images = target.files as FileList;
 
       if (images.length > 1) {
         for (let key = 0; key < images.length; key++) {
@@ -38,7 +39,7 @@ export default {
       emitImageData,
     };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
