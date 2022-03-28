@@ -4,11 +4,12 @@
   </button>
 </template>
 
-<script>
-import axios from "axios";
+<script lang="ts">
+import { defineComponent } from "vue";
 import { useStore } from "vuex";
+import axios from "axios";
 
-export default {
+export default defineComponent({
   components: {},
   props: {
     disable: Boolean,
@@ -21,7 +22,7 @@ export default {
       axios
         .post("https://httpbin.org/post", props.getReactiveImageData)
         .then((res) => {
-          console.log(res.data.json);
+          console.log(res.data.json); //コンソールデバック用に設置
           store.commit("setCode", res.status);
         })
         .catch((error) => {
@@ -35,7 +36,7 @@ export default {
     };
     return { sendImageData };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

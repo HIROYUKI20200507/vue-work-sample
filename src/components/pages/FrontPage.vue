@@ -44,7 +44,7 @@ import { defineComponent, reactive, ref, watch } from "vue";
 interface GetImageData {
   id: number;
   name: string;
-  url: any;
+  url: string;
   date: string;
 }
 
@@ -60,7 +60,7 @@ export default defineComponent({
     const getReactiveImageData = reactive<GetImageData[]>([]);
 
     const getImageData = (imgData: GetImageData[]) => {
-      imgData.forEach((element: GetImageData, index: number) => {
+      imgData.forEach((element: any, index: number) => {
         const today = new Date();
 
         getReactiveImageData.push({
